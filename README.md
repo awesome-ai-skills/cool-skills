@@ -1,44 +1,44 @@
-# Own Skills
+# 自有技能库（Own Skills）
 
-Personal Agent Skills for recurring work in Codex and other Agent Skills-compatible clients.
+一套个人 Agent Skills 集合，用于在 Codex 及其他兼容 Agent Skills 的客户端中完成重复性工作。
 
-## Repository Layout
+## 仓库结构
 
 ```text
 .
-├── skills/       # Published, installable skills
-├── incubator/    # Draft skills and experiments
-├── templates/    # Reusable scaffolds for new skills
-├── scripts/      # Repository-level maintenance tools
-└── docs/         # Authoring notes and history
+├── skills/       # 已发布、可安装的技能
+├── incubator/    # 草稿技能与实验性内容
+├── templates/    # 用于新建技能的可复用脚手架
+├── scripts/      # 仓库级别的维护工具
+└── docs/         # 编写说明与历史记录
 ```
 
-## Included Skills
+## 已包含的技能
 
-- `read-algorithm-repos`: Analyze algorithm repositories and Repomix artifacts, producing architecture maps, pipeline reports, core model inventories, code navigation, and newcomer onboarding material.
+- `read-algorithm-repos`：分析算法仓库与 Repomix 产物，生成架构图、流水线报告、核心模型清单、代码导航以及新人上手材料。
 
-## Install A Skill
+## 安装技能
 
-From this repository root:
+在本仓库根目录下执行：
 
 ```bash
 python3 scripts/install_skill.py read-algorithm-repos --client codex --scope user --dry-run
 python3 scripts/install_skill.py read-algorithm-repos --client codex --scope user
 ```
 
-Supported clients are `codex`, `claude-code`, `opencode`, and `agents`. Use `--scope project --project-root <path>` for project-local installation.
+支持的客户端包括 `codex`、`claude-code`、`opencode` 和 `agents`。若要在项目本地安装，请使用 `--scope project --project-root <path>`。
 
-You can also install a skill by copying `skills/<skill-name>/` into the target client's skills directory.
+你也可以直接将 `skills/<skill-name>/` 目录复制到目标客户端的技能目录中来完成安装。
 
-## Validate
+## 校验
 
-Validate every published skill:
+校验所有已发布的技能：
 
 ```bash
 python3 scripts/validate_all_skills.py
 ```
 
-Run all tests:
+运行全部测试：
 
 ```bash
 python3 -m unittest discover tests
