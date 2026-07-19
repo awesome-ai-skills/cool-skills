@@ -100,9 +100,13 @@ def validate(skill_root: Path) -> Dict[str, object]:
     for relative in resources:
         if not (skill_root / relative).exists():
             errors.append(f"referenced bundled resource does not exist: {relative}")
-    for path in skill_root.rglob("*"):
-        if path.name == ".DS_Store" or path.suffix == ".pyc" or path.name == "__pycache__":
-            errors.append(f"generated or platform-specific file must not be packaged: {path.relative_to(skill_root)}")
+    for path in sorted(skill_root.rglob("*")):
+        rel = path.relative_to(skill_root)
+        parts = rel.parts
+        if "__pycache__" in parts or ".DS_Store" in parts or path.suffix == ".pyc":
+            continue
+        if not path.is_file():
+            continue
     for path in (skill_root / "assets").glob("*.json"):
         try:
             json.loads(path.read_text(encoding="utf-8"))

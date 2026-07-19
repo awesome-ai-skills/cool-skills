@@ -19,7 +19,11 @@ jobs:
           python-version: "3.x"
 
       - name: Validate skills
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
         run: python3 scripts/validate_all_skills.py
 
       - name: Run tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
         run: python3 -m unittest discover tests
