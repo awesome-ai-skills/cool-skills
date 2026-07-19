@@ -1,0 +1,74 @@
+{
+  "$schema": "https://repomix.com/schemas/latest/schema.json",
+  "input": {
+    "maxFileSize": 2000000
+  },
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "filePathStyle": "target-relative",
+    "parsableStyle": true,
+    "compress": false,
+    "fileSummary": true,
+    "directoryStructure": true,
+    "git": {
+      "sortByChanges": true,
+      "includeDiffs": false,
+      "includeLogs": false
+    }
+  },
+  "ignore": {
+    "useGitignore": true,
+    "useDotIgnore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "**/.venv/**",
+      "**/venv/**",
+      "**/__pycache__/**",
+      "**/.pytest_cache/**",
+      "**/.mypy_cache/**",
+      "**/.ruff_cache/**",
+      "**/htmlcov/**",
+      "**/logs/**",
+      "**/outputs/**",
+      "**/datasets/raw/**",
+      "**/data/raw/**",
+      "**/weights/**",
+      "**/checkpoints/**",
+      "**/repomix-output.*",
+      "**/algorithm-repo-analysis.json",
+      "**/*_algorithm_repo_*report.md",
+      "**/*_algorithm_repo_*report.html",
+      "**/architecture_analysis_*.md",
+      "**/architecture_analysis_*.html",
+      "**/*_newcomer_architecture.md",
+      "**/*_newcomer_architecture.html",
+      "**/*_architecture_report.md",
+      "**/*_architecture_report.html",
+      "**/*.log",
+      "**/*.pyc",
+      "**/*.pyo",
+      "**/*.so",
+      "**/*.dylib",
+      "**/*.dll",
+      "**/*.zip",
+      "**/*.tar",
+      "**/*.gz",
+      "**/*.parquet",
+      "**/*.feather",
+      "**/*.npy",
+      "**/*.npz",
+      "**/*.pt",
+      "**/*.pth",
+      "**/*.ckpt",
+      "**/*.h5",
+      "**/*.onnx",
+      "**/*.csv",
+      "**/*.tsv",
+      "**/*.jsonl"
+    ]
+  },
+  "security": {
+    "enableSecurityCheck": true
+  }
+}

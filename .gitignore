@@ -1,0 +1,69 @@
+# OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local environments
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+*.egg-info/
+build/
+dist/
+
+# Node and package-manager caches
+node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Generated outputs
+tmp/
+temp/
+output/
+outputs/
+reports/generated/
+*.log
+*.tmp
+*.bak
+
+# Local worktrees
+.worktrees/
+worktrees/
+
+# Agent and client runtime state
+.codex/
+.claude/
+.agents/
+.opencode/
+
+# Generated repository-analysis artifacts
+repomix-output.*
+*.repomix.*
+algorithm-repo-analysis.json
+repo-stats.json
+code-index.json

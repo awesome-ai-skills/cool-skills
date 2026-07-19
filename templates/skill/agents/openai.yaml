@@ -1,0 +1,6 @@
+interface:
+  display_name: "Template Skill"
+  short_description: "Replace with a concise user-facing summary"
+  default_prompt: "Use this skill to ..."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Algorithm Repo Reader"
+  short_description: "快速读懂算法仓的架构、Pipeline 和核心模型"
+  default_prompt: "Use $read-algorithm-repos to analyze this algorithm repository and produce an architecture and pipeline report."
+policy:
+  allow_implicit_invocation: true

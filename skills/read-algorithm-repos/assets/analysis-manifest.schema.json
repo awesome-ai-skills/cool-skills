@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/read-algorithm-repos/analysis-manifest.schema.json",
+  "title": "Algorithm Repository Analysis Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "repository",
+    "capabilities",
+    "domain",
+    "statistics",
+    "pipeline",
+    "flows",
+    "models",
+    "codeIndex",
+    "onboarding",
+    "assessment"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "2.1"
+    },
+    "repository": {
+      "type": "object",
+      "required": ["name", "snapshot"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "root": {"type": ["string", "null"]},
+        "revision": {"type": ["string", "null"]},
+        "snapshot": {
+          "type": "object",
+          "required": ["status", "freshnessBasis"],
+          "properties": {
+            "status": {
+              "enum": ["reused", "regenerated", "fresh", "stale", "missing", "unavailable", "packed-only"]
+            },
+            "artifact": {"type": ["string", "null"]},
+            "freshnessBasis": {"type": "string"},
+            "exclusions": {"type": "array", "items": {"type": "string"}},
+            "executionSource": {"enum": ["project-local", "global", "npx-download", "unavailable", null]},
+            "downloadPolicy": {"enum": ["automatic", "disabled", null]},
+            "package": {"type": ["string", "null"]},
+            "error": {"type": ["string", "null"]}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["filesystem", "shell", "browserAutomation"],
+      "properties": {
+        "filesystem": {"type": "boolean"},
+        "shell": {"type": "boolean"},
+        "python": {"type": "boolean"},
+        "git": {"type": "boolean"},
+        "repomix": {"type": "boolean"},
+        "browserAutomation": {"type": "boolean"},
+        "qaLevel": {"enum": ["browser", "static", "disclosed-only"]}
+      },
+      "additionalProperties": true
+    },
+    "domain": {
+      "type": "object",
+      "required": ["type", "evidence"],
+      "properties": {
+        "type": {
+          "enum": ["recommendation", "ads", "search", "nlp", "cv", "graph", "rl", "generic-ml", "other"]
+        },
+        "summary": {"type": "string"},
+        "evidence": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "statistics": {
+      "type": "object",
+      "required": ["metric"],
+      "properties": {
+        "metric": {"type": "string"},
+        "method": {"type": "string"},
+        "primaryLanguage": {"type": ["string", "null"]},
+        "totals": {"type": "object"},
+        "languages": {"type": "array"},
+        "roles": {"type": "array"}
+      },
+      "additionalProperties": true
+    },
+    "pipeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "goal", "coverage", "sources"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "goal": {"type": "string"},
+          "coverage": {"enum": ["full", "partial", "inferred", "external", "absent"]},
+          "logic": {"type": "string"},
+          "inputs": {"type": "array", "items": {"type": "string"}},
+          "outputs": {"type": "array", "items": {"type": "string"}},
+          "sources": {"type": "array", "items": {"$ref": "#/$defs/sourceAnchor"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "flows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "nodes"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "direction": {"enum": ["TD", "LR"]},
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "label", "ownership", "sources"],
+              "properties": {
+                "id": {"type": "string"},
+                "label": {"type": "string"},
+                "detail": {"type": "string"},
+                "ownership": {"enum": ["repository", "external", "absent"]},
+                "sources": {"type": "array", "items": {"$ref": "#/$defs/sourceAnchor"}}
+              },
+              "additionalProperties": true
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["from", "to"],
+              "properties": {
+                "from": {"type": "string"},
+                "to": {"type": "string"},
+                "label": {"type": "string"}
+              }
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "family", "problem", "architecture", "stage", "importance", "sources"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "family": {"type": "string", "minLength": 1},
+          "problem": {"type": "string", "minLength": 1},
+          "architecture": {"type": "string", "minLength": 1},
+          "stage": {"type": ["string", "null"]},
+          "importance": {"enum": ["core", "important", "supporting", "reference"]},
+          "prerequisites": {"type": "array", "items": {"type": "string"}},
+          "keyLayers": {"type": "array", "items": {"$ref": "#/$defs/sourceAnchor"}},
+          "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sourceAnchor"}},
+          "exampleSources": {"type": "array", "items": {"$ref": "#/$defs/sourceAnchor"}},
+          "testSources": {"type": "array", "items": {"$ref": "#/$defs/sourceAnchor"}},
+          "learnWhy": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "codeIndex": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceAnchor"}
+    },
+    "onboarding": {
+      "type": "object",
+      "required": ["mentalModel", "keyConcepts", "readingTracks", "modificationGuide"],
+      "properties": {
+        "mentalModel": {"type": "string", "minLength": 1},
+        "keyConcepts": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+        "entryPoints": {"type": "array", "items": {"$ref": "#/$defs/sourceAnchor"}},
+        "readingTracks": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+        "modificationGuide": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+        "glossary": {"type": "array", "items": {"type": "object"}}
+      },
+      "additionalProperties": true
+    },
+    "assessment": {
+      "type": "object",
+      "required": ["strengths", "limitations"],
+      "properties": {
+        "strengths": {"type": "array", "items": {"type": "string"}},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "productionGaps": {"type": "array", "items": {"type": "string"}},
+        "readingOrder": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "sourceAnchor": {
+      "type": "object",
+      "required": ["relativePath"],
+      "properties": {
+        "relativePath": {"type": "string", "minLength": 1},
+        "absolutePath": {"type": ["string", "null"]},
+        "symbol": {"type": ["string", "null"]},
+        "line": {"type": ["integer", "null"], "minimum": 1},
+        "kind": {"type": ["string", "null"]},
+        "category": {"type": ["string", "null"]},
+        "stage": {"type": ["string", "null"]},
+        "language": {"type": ["string", "null"]},
+        "pathRoot": {"type": ["string", "null"]},
+        "importance": {"enum": ["core", "important", "supporting", "reference", null]},
+        "learningPhase": {"enum": ["orientation", "foundation", "model-deep-dive", "training-validation", "production", null]},
+        "modelFamily": {"type": ["string", "null"]},
+        "summary": {"type": ["string", "null"]},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "relatedSources": {"type": "array", "items": {"type": "string"}},
+        "fileUri": {"type": ["string", "null"]},
+        "editorUri": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
